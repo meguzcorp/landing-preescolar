@@ -1,0 +1,107 @@
+---
+// src/components/Footer.astro
+const year = 2026; // Siguiendo tu código de CI3
+---
+
+<style>
+  /* Rescatamos tus fuentes y clases de CI3 */
+  .font-avenus {
+    font-family: "AvenusType", sans-serif;
+  }
+  .font-cera {
+    font-family: "CeraPro", sans-serif;
+  }
+
+  .mi-camino {
+    font-family: "AvenusType", sans-serif;
+    color: #ffe784; /* El amarillo brillante de tu CI3 */
+    font-size: 6rem;
+  }
+
+  .text-light {
+    font-family: "CeraPro", sans-serif;
+    font-weight: 300;
+    font-size: 30px;
+  }
+
+  .text-black {
+    font-family: "CeraPro", sans-serif;
+    font-weight: 900;
+    font-size: 30px;
+  }
+
+  .text-black-contactanos {
+    transform: translate(0, -35px);
+    font-family: "CeraPro", sans-serif;
+    font-weight: 900;
+    font-size: 5rem;
+    color: #8cc2ed; /* Azul claro */
+  }
+
+  .text-regular {
+    font-family: "CeraPro", sans-serif;
+    font-weight: 400;
+    font-size: 20px;
+  }
+
+  @media (max-width: 768px) {
+    .mi-camino {
+      font-size: 3rem;
+    }
+    .text-black-contactanos {
+      font-size: 3rem;
+      transform: none;
+    }
+    .text-black,
+    .text-light {
+      font-size: 20px;
+    }
+  }
+</style>
+
+<footer
+  class="relative z-0 bg-[#0A1744] text-white -mt-20 pt-32 pb-12 px-6 text-center"
+>
+  <div class="max-w-6xl mx-auto">
+    <div class="mb-12">
+      <h2 class="leading-tight">
+        <span class="text-black block md:inline">Formamos mentes</span>
+        <span class="mi-camino"> brillantes</span>
+        <span class="text-light block md:inline"> en seres</span>
+        <span class="text-black block md:inline">humanos extraordinarios.</span>
+      </h2>
+    </div>
+
+    <div class="contact-info mt-20">
+      <p class="text-black-contactanos">Contáctanos</p>
+
+      <div class="space-y-4 -mt-8">
+        <div class="telefonos">
+          <p class="text-regular">
+            📞 (984) 267 28 99 <span class="text-[#6cc5f1]"> | </span> (984) 267 29
+            99
+          </p>
+        </div>
+
+        <p class="text-regular max-w-2xl mx-auto">
+          📍 Calle 72 entre Av. Sian Ka'an y Carr. Federal Maza 026<br />
+          Col. Ejidal, Playa del Carmen Q. Roo.
+        </p>
+      </div>
+    </div>
+
+    <div class="mt-16 mb-8">
+      <img
+        src="/rightyfooter.webp"
+        alt="Mascota del colegio"
+        class="mx-auto w-[120px] h-auto"
+      />
+    </div>
+
+    <div class="pt-8 border-t border-white/10">
+      <p class="text-sm opacity-80">
+        Copyright {year} Colegio Inglés Playa - Todos los derechos reservados
+      </p>
+    </div>
+  </div>
+</footer>

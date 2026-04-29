@@ -1,0 +1,104 @@
+---
+// src/components/Video.astro
+import { getLangFromUrl, useTranslations } from "../i18n/utils";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<style>
+  /* Clases de utilidad basadas en tu CSS de CI3 */
+  .font-avenus {
+    font-family: "AvenusType", sans-serif;
+  }
+  .font-cera {
+    font-family: "CeraPro", sans-serif;
+  }
+
+  .titulo-ajustable {
+    line-height: 1.1;
+  }
+
+  /* RESPETANDO TUS VALORES ORIGINALES */
+  .mancha-izq {
+    transform: translate(120px, -120px);
+  }
+  .mancha-der {
+    transform: translate(-150px, 150px);
+  }
+
+  @media (max-width: 767px) {
+    .mancha-izq,
+    .mancha-der {
+      display: none;
+    }
+  }
+</style>
+
+<section
+  class="relative z-10 -mt-20 bg-white rounded-t-[60px] pt-20 pb-20 px-6 overflow-hidden"
+>
+  <div class="max-w-6xl mx-auto text-center">
+    <header class="mb-12">
+      <h2
+        class="titulo-ajustable font-cera font-black text-[2.5rem] md:text-[3.5rem] text-[#001D85]"
+      >
+        <span class="block">
+          {t("video.title1")}
+          <span class="font-avenus text-[#B61350] text-[1.2em]"
+            >{t("video.title2")}</span
+          >
+          {t("video.title3")}
+        </span>
+        <span class="block -mt-2 md:-mt-4">
+          <b class="text-[#8CC2ED]">{t("video.title4")}</b>
+        </span>
+      </h2>
+
+      <div
+        class="mt-8 space-y-4 font-cera text-lg md:text-xl text-slate-700 max-w-[1000px] mx-auto leading-relaxed"
+      >
+        <p>{t("video.p1")}</p>
+        <p><b class="text-[#9BB836]">{t("video.p2")}</b></p>
+      </div>
+    </header>
+
+    <div
+      class="relative flex items-center justify-center gap-4 max-w-5xl mx-auto"
+    >
+      <div class="hidden md:block w-1/6">
+        <img
+          src="/manchaverde2.webp"
+          class="mancha-img mancha-izq w-full h-auto opacity-90"
+          alt="Decoración"
+        />
+      </div>
+
+      <div class="w-full md:w-4/6 relative z-10">
+        <div
+          class="border-[4px] border-[#1d2746] bg-white p-0 shadow-2xl rounded-sm"
+        >
+          <video
+            id="slideVideo"
+            class="w-full h-auto block"
+            muted
+            autoplay
+            loop
+            playsinline
+          >
+            <source src="/slider1.mp4" type="video/mp4" />
+            Tu navegador no soporta el video HTML5.
+          </video>
+        </div>
+      </div>
+
+      <div class="hidden md:block w-1/6">
+        <img
+          src="/manchaazul.webp"
+          class="mancha-img mancha-der w-full h-auto opacity-90"
+          alt="Decoración"
+        />
+      </div>
+    </div>
+  </div>
+</section>

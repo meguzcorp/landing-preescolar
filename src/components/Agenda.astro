@@ -1,0 +1,100 @@
+---
+// src/components/Agenda.astro
+import { getLangFromUrl, useTranslations } from "../i18n/utils";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<style>
+  .font-avenus {
+    font-family: "AvenusType", sans-serif;
+  }
+  .font-cera {
+    font-family: "CeraPro", sans-serif;
+  }
+
+  .titulo-familia {
+    font-size: 4.2rem;
+    color: #000;
+  }
+  .titulo-familia span {
+    color: #9bb836;
+    font-family: "AvenusType";
+    font-size: 1.2em;
+  }
+  .texto-beneficio {
+    font-family: "CeraPro", sans-serif;
+    font-weight: 500;
+    font-size: 2.7rem;
+    color: black;
+    line-height: 1.2;
+  }
+  .texto-beneficio span {
+    color: #8cc2ed;
+    font-weight: 900;
+  }
+</style>
+
+<section
+  id="unete-familia"
+  class="relative z-10 bg-white rounded-b-[80px] pt-20 pb-24 px-6 shadow-xl"
+>
+  <div class="max-w-4xl mx-auto">
+    <h2 class="titulo-familia text-center font-black mb-16">
+      {t("agenda.title")}
+      <br class="md:hidden" />
+      <span>{t("agenda.span")}</span>
+    </h2>
+
+    <div class="space-y-10 max-w-2xl mx-auto">
+      <div class="flex items-center gap-8 group">
+        <div class="w-1/4 text-right">
+          <img
+            src="/calendar.webp"
+            alt="Agenda"
+            class="inline-block w-24 h-auto transition-transform group-hover:scale-110"
+          />
+        </div>
+        <div class="w-3/4 text-left">
+          <p class="texto-beneficio">
+            <span>{t("agenda.step1.blue")}</span>
+            {t("agenda.step1.text")}
+          </p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-8 group">
+        <div class="w-1/4 text-right">
+          <img
+            src="/classroom.webp"
+            alt="Conoce"
+            class="inline-block w-24 h-auto transition-transform group-hover:scale-110"
+          />
+        </div>
+        <div class="w-3/4 text-left">
+          <p class="texto-beneficio">
+            <span>{t("agenda.step2.blue")}</span>
+            {t("agenda.step2.text")}
+          </p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-8 group">
+        <div class="w-1/4 text-right">
+          <img
+            src="/mother2.webp"
+            alt="Inscribe"
+            class="inline-block w-24 h-auto transition-transform group-hover:scale-110"
+          />
+        </div>
+        <div class="w-3/4 text-left">
+          <p class="texto-beneficio">
+            <span>{t("agenda.step3.blue")}</span>
+            {t("agenda.step3.text")}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

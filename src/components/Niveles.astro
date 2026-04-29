@@ -1,0 +1,85 @@
+---
+// src/components/Niveles.astro
+import { getLangFromUrl, useTranslations } from "../i18n/utils";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<style>
+  .font-avenus {
+    font-family: "AvenusType", sans-serif;
+  }
+  .font-cera {
+    font-family: "CeraPro", sans-serif;
+  }
+
+  .titulo-niveles {
+    font-size: 3.2rem;
+    font-weight: 900;
+    line-height: 1.1;
+  }
+
+  .titulo2 {
+    font-family: "CeraPro", sans-serif;
+    font-weight: 900;
+    font-size: 1.5em;
+    color: #72b5e1;
+  }
+
+  .nombre-nivel {
+    font-family: "CeraPro", sans-serif;
+    font-weight: 900;
+    font-size: 2.8rem;
+    color: #0a1744;
+  }
+
+  .descripcion-nivel {
+    font-family: "CeraPro", sans-serif;
+    font-weight: 500;
+    font-size: 1.8rem;
+    color: #000000;
+    line-height: 1.3;
+  }
+</style>
+
+<section id="niveles-educativos" class="py-20 bg-white px-6">
+  <div class="max-w-6xl mx-auto text-center">
+    <h2 class="titulo-niveles font-cera text-slate-900 mb-16">
+      <span class="font-avenus text-[#B61350] text-[1.2em] block mb-2">
+        {t("niveles.title")}
+      </span>
+      {t("niveles.subtitle")}
+      <br />
+      <span class="titulo2 block">{t("niveles.age")}</span>
+    </h2>
+
+    <div class="grid md:grid-cols-2 gap-16 md:gap-4 items-start">
+      <div class="flex flex-col items-center">
+        <img
+          src="/mother.webp"
+          alt="Maternal"
+          class="w-[45%] md:w-[30%] h-auto mb-8 transition-transform hover:scale-105 duration-300"
+        />
+        <h3 class="nombre-nivel mb-4 italic">{t("niveles.maternal")}</h3>
+        <p class="descripcion-nivel">
+          <b class="font-black">{t("niveles.maternal.b")}</b>
+          {t("niveles.maternal.desc")}
+        </p>
+      </div>
+
+      <div class="flex flex-col items-center">
+        <img
+          src="/child.webp"
+          alt="Preescolar"
+          class="w-[30%] md:w-[17.5%] h-auto mb-8 transition-transform hover:scale-105 duration-300"
+        />
+        <h3 class="nombre-nivel mb-4 italic">{t("niveles.preescolar")}</h3>
+        <p class="descripcion-nivel">
+          <b class="font-black">{t("niveles.preescolar.b")}</b>
+          {t("niveles.preescolar.desc")}
+        </p>
+      </div>
+    </div>
+  </div>
+</section>

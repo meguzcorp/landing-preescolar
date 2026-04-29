@@ -1,0 +1,252 @@
+---
+// src/components/Hero.astro
+import { getLangFromUrl, useTranslations } from "../i18n/utils";
+
+// Detectamos el idioma actual y preparamos la traducción
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<style>
+  /* Importamos tus fuentes locales */
+  @font-face {
+    font-family: "AvenusType";
+    src: url("/fonts/AvenusType.otf") format("opentype");
+  }
+  @font-face {
+    font-family: "CeraPro";
+    src: url("/fonts/CeraProRegular.otf") format("opentype");
+    font-weight: 400;
+  }
+  @font-face {
+    font-family: "CeraPro";
+    src: url("/fonts/CeraProBlack.otf") format("opentype");
+    font-weight: 900;
+  }
+
+  .font-avenus {
+    font-family: "AvenusType", sans-serif;
+  }
+  .font-cera {
+    font-family: "CeraPro", sans-serif;
+  }
+
+  /* La mancha verde decorativa del panel blanco */
+  .panel-formulario::after {
+    content: "";
+    position: absolute;
+    bottom: -10px;
+    left: -10px;
+    width: 200px;
+    height: 150px;
+    background-image: url("/mancha-verde.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: left bottom;
+    z-index: -1;
+  }
+</style>
+
+<section
+  class="relative min-h-[600px] flex items-center py-20 overflow-visible"
+>
+  <div class="absolute inset-0 z-0">
+    <img
+      src="/background.webp"
+      alt="background"
+      class="w-full h-full object-cover"
+    />
+  </div>
+
+  <div
+    class="relative z-10 max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center"
+  >
+    <div class="hidden md:block">
+      <img
+        src="/kids.webp"
+        alt="Alumnos Colegio Inglés"
+        class="w-full h-auto drop-shadow-2xl"
+      />
+    </div>
+
+    <div
+      class="panel-formulario relative bg-white p-10 rounded-[45px] shadow-2xl overflow-hidden"
+    >
+      <h3
+        class="font-avenus text-center text-[#001D85] text-4xl md:text-5xl leading-none mb-8"
+      >
+        {t("form.title")}
+        <br />
+        <span
+          class="font-cera font-black text-[#9BB836] text-[0.7em] block mt-2"
+        >
+          {t("form.span")}
+        </span>
+      </h3>
+
+      <form id="formHeroLanding" class="space-y-4 relative z-10">
+        <div
+          class="flex items-stretch border-2 border-[#9BB836] rounded-[25px] overflow-hidden h-[45px]"
+        >
+          <span
+            class="bg-[#9BB836] flex items-center justify-center px-4 text-white"
+          >
+            <i class="glyphicon">👤</i>
+          </span>
+          <input
+            type="text"
+            name="nombre"
+            placeholder={t("form.name")}
+            class="flex-1 px-4 outline-none text-[#9BB836] placeholder:text-[#9BB836]/60 bg-transparent"
+          />
+        </div>
+
+        <div
+          class="flex items-stretch border-2 border-[#9BB836] rounded-[25px] overflow-hidden h-[45px]"
+        >
+          <span
+            class="bg-[#9BB836] flex items-center justify-center px-4 text-white"
+          >
+            <i class="glyphicon">✏️</i>
+          </span>
+          <input
+            type="text"
+            name="escuela_procedencia"
+            placeholder={t("form.school")}
+            class="flex-1 px-4 outline-none text-[#9BB836] bg-transparent placeholder:text-[#9BB836]/60"
+          />
+        </div>
+
+        <div
+          class="flex items-stretch border-2 border-[#9BB836] rounded-[25px] overflow-hidden h-[45px]"
+        >
+          <span
+            class="bg-[#9BB836] flex items-center justify-center px-4 text-white"
+          >
+            <i class="glyphicon">🎓</i>
+          </span>
+          <select
+            name="nivel_interes"
+            class="flex-1 px-4 outline-none text-[#9BB836] bg-transparent appearance-none"
+          >
+            <option value="">{t("form.interest")}</option>
+            <option value="Maternal">Maternal</option>
+            <option value="Preescolar">Preescolar</option>
+          </select>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div
+            class="flex items-stretch border-2 border-[#9BB836] rounded-[25px] overflow-hidden h-[45px]"
+          >
+            <span
+              class="bg-[#9BB836] flex items-center justify-center px-4 text-white"
+            >
+              <i class="glyphicon">📧</i>
+            </span>
+            <input
+              type="email"
+              name="correo"
+              placeholder={t("form.email")}
+              class="flex-1 px-4 outline-none text-[#9BB836] bg-transparent placeholder:text-[#9BB836]/60"
+            />
+          </div>
+          <div
+            class="flex items-stretch border-2 border-[#9BB836] rounded-[25px] overflow-hidden h-[45px]"
+          >
+            <span
+              class="bg-[#9BB836] flex items-center justify-center px-4 text-white"
+            >
+              <i class="glyphicon">📞</i>
+            </span>
+            <input
+              type="tel"
+              name="telefono"
+              placeholder={t("form.phone")}
+              class="flex-1 px-4 outline-none text-[#9BB836] bg-transparent placeholder:text-[#9BB836]/60"
+            />
+          </div>
+        </div>
+
+        <div class="flex justify-end pt-4">
+          <button
+            type="submit"
+            class="bg-[#9BB836] hover:bg-[#8aa82d] text-white font-cera font-medium px-10 py-2 rounded-[15px] shadow-[0_4px_0px_#7a9b1a] active:translate-y-[2px] active:shadow-none transition-all"
+          >
+            {t("form.submit")}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<script>
+  const form = document.getElementById("formHeroLanding") as HTMLFormElement;
+
+  if (form) {
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const formData = new FormData(form);
+      const nombre = formData.get("nombre") as string;
+      const correo = formData.get("correo") as string;
+      const telefono = formData.get("telefono") as string;
+      const nivel = formData.get("nivel_interes") as string;
+
+      const submitBtn = form.querySelector(
+        'button[type="submit"]',
+      ) as HTMLButtonElement;
+      const originalBtnText = submitBtn.innerText;
+
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      const phoneDigits = telefono.replace(/\D/g, "");
+
+      if (!nombre || !correo || !telefono || !nivel) {
+        alert(
+          "Por favor, completa todos los campos obligatorios / Please fill all mandatory fields.",
+        );
+        return;
+      }
+
+      if (!emailRegex.test(correo)) {
+        alert(
+          "Por favor, ingresa un correo electrónico válido / Please enter a valid email.",
+        );
+        return;
+      }
+
+      if (phoneDigits.length !== 10) {
+        alert(
+          "El número telefónico debe tener exactamente 10 dígitos / Phone number must be 10 digits.",
+        );
+        return;
+      }
+
+      try {
+        submitBtn.disabled = true;
+        submitBtn.innerText = "...";
+        submitBtn.classList.add("opacity-70", "cursor-not-allowed");
+
+        const response = await fetch("/api/contacto", {
+          method: "POST",
+          body: formData,
+        });
+
+        if (response.ok) {
+          alert("¡Gracias! / Thank you!");
+          form.reset();
+        } else {
+          throw new Error("Error");
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        alert("Hubo un problema / There was a problem.");
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerText = originalBtnText;
+        submitBtn.classList.remove("opacity-70", "cursor-not-allowed");
+      }
+    });
+  }
+</script>
