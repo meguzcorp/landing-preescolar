@@ -1,7 +1,10 @@
 ---
 // src/layouts/Layout.astro
 import "../styles/global.css";
-const { title } = Astro.props;
+const {
+  title,
+  description = "Inscripciones abiertas para Preescolar y Maternal en Colegio Inglés. Ambiente bilingüe y formación integral.",
+} = Astro.props;
 ---
 
 <!doctype html>
@@ -9,10 +12,36 @@ const { title } = Astro.props;
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <title>{title}</title>
+    <meta name="description" content={description} />
+
+    <!-- Open Graph (Para que se vea bien cuando compartan el link por WhatsApp) -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="/img/og-image-preescolar.jpg" />
+
+    <!-- Scripts de Medición (Píxel de Meta / Google Tag) -->
+    <!-- Aquí es donde pegarías los códigos que te dé el equipo de marketing -->
+
+    <!-- JSON-LD Schema (Organización Educativa) -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "School",
+        "name": "Colegio Inglés Playa del Carmen",
+        "url": "https://colegioinglesplaya.com",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Playa del Carmen",
+          "addressRegion": "Quintana Roo",
+          "addressCountry": "MX"
+        }
+      }
+    </script>
   </head>
-  <body class="bg-[#0a1744]">
+  <body class="bg-[#0a1744] antialiased">
     <slot />
   </body>
 </html>
