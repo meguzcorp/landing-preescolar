@@ -17,8 +17,8 @@ export const POST: APIRoute = async ({ request }) => {
     port: 587,
     secure: false, // false porque usas puerto 587 con TLS
     auth: {
-      user: "webmaster@educacionmeguz.com", // Tu smtp_user
-      pass: "muynxtybxwuiibea"              // Tu smtp_pass (App Password)
+      user: import.meta.env.SMTP_USER,
+      pass: import.meta.env.SMTP_PASS
     },
     tls: {
       rejectUnauthorized: false // Esto ayuda a evitar problemas de certificados en algunos hosts
