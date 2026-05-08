@@ -47,6 +47,28 @@ const t = useTranslations(lang);
     background-position: left bottom;
     z-index: -1;
   }
+  .animate-shake {
+    animation: shake 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+  }
+  @keyframes shake {
+    10%,
+    90% {
+      transform: translate3d(-1px, 0, 0);
+    }
+    20%,
+    80% {
+      transform: translate3d(2px, 0, 0);
+    }
+    30%,
+    50%,
+    70% {
+      transform: translate3d(-4px, 0, 0);
+    }
+    40%,
+    60% {
+      transform: translate3d(4px, 0, 0);
+    }
+  }
 </style>
 
 <section
@@ -177,58 +199,110 @@ const t = useTranslations(lang);
           >
             {t("form.submit")}
           </button>
+          <div
+            id="form-feedback"
+            class="hidden mt-4 p-3 rounded-lg text-sm text-center"
+          >
+          </div>
         </div>
       </form>
     </div>
   </div>
 </section>
-
 <script>
   const form = document.getElementById("formHeroLanding") as HTMLFormElement;
+
+  // 1. Referencias a los elementos del Modal (que ya vive en el index)
+  const modal = document.getElementById("modal-response");
+  const iconSuccess = document.getElementById("icon-success");
+  const iconError = document.getElementById("icon-error");
+  const modalTitle = document.getElementById("modal-title");
+  const modalText = document.getElementById("modal-text");
+
+  function openModal(title: string, text: string, isError = false) {
+    if (!modal || !modalTitle || !modalText || !iconSuccess || !iconError)
+      return;
+
+    // Resetear y mostrar icono correcto
+    iconSuccess.classList.toggle("hidden", isError);
+    iconError.classList.toggle("hidden", !isError);
+
+    modalTitle.textContent = title;
+    modalText.textContent = text;
+
+    // Mostrar con animación
+    modal.classList.remove("hidden");
+    setTimeout(() => modal.classList.remove("opacity-0"), 10);
+  }
+
+  // 2. Función para manejar los bordes rojos en los contenedores de los inputs
+  function toggleErrorStyle(inputName: string, hasError: boolean) {
+    const input = form.querySelector(`[name="${inputName}"]`);
+    const container = input?.parentElement; // Seleccionamos el div con borde verde
+
+    if (container) {
+      if (hasError) {
+        container.classList.add("border-red-500", "animate-shake");
+        container.classList.remove("border-[#9BB836]");
+      } else {
+        container.classList.remove("border-red-500", "animate-shake");
+        container.classList.add("border-[#9BB836]");
+      }
+    }
+  }
 
   if (form) {
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
-
       const formData = new FormData(form);
-      const nombre = formData.get("nombre") as string;
-      const correo = formData.get("correo") as string;
-      const telefono = formData.get("telefono") as string;
-      const nivel = formData.get("nivel_interes") as string;
-
       const submitBtn = form.querySelector(
         'button[type="submit"]',
       ) as HTMLButtonElement;
-      const originalBtnText = submitBtn.innerText;
+      const originalContent = submitBtn.innerHTML;
 
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      const phoneDigits = telefono.replace(/\D/g, "");
+      const fields = ["nombre", "correo", "telefono", "nivel_interes"];
+      let isValid = true;
 
-      if (!nombre || !correo || !telefono || !nivel) {
-        alert(
-          "Por favor, completa todos los campos obligatorios / Please fill all mandatory fields.",
-        );
-        return;
-      }
+      // Validar cada campo y pintar bordes
+      fields.forEach((field) => {
+        const value = formData.get(field) as string;
+        let hasError = !value;
 
-      if (!emailRegex.test(correo)) {
-        alert(
-          "Por favor, ingresa un correo electrónico válido / Please enter a valid email.",
-        );
-        return;
-      }
+        if (field === "correo" && value && !emailRegex.test(value))
+          hasError = true;
+        if (
+          field === "telefono" &&
+          value &&
+          value.replace(/\D/g, "").length !== 10
+        )
+          hasError = true;
 
-      if (phoneDigits.length !== 10) {
-        alert(
-          "El número telefónico debe tener exactamente 10 dígitos / Phone number must be 10 digits.",
+        toggleErrorStyle(field, hasError);
+        if (hasError) isValid = false;
+      });
+
+      if (!isValid) {
+        openModal(
+          "¡Casi listo!",
+          "Por favor revisa los campos marcados en rojo para continuar.",
+          true,
         );
         return;
       }
 
       try {
         submitBtn.disabled = true;
-        submitBtn.innerText = "...";
-        submitBtn.classList.add("opacity-70", "cursor-not-allowed");
+        // 3. Insertar el Spinner de carga
+        submitBtn.innerHTML = `
+          <div class="flex items-center justify-center">
+            <svg class="animate-spin h-5 w-5 text-white mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            Enviando...
+          </div>
+        `;
 
         const response = await fetch("/api/contacto", {
           method: "POST",
@@ -236,18 +310,23 @@ const t = useTranslations(lang);
         });
 
         if (response.ok) {
-          alert("¡Gracias! / Thank you!");
+          openModal(
+            "¡Registro Exitoso!",
+            "Gracias por interesarte en Colegio Inglés. Pronto nos comunicaremos contigo.",
+          );
           form.reset();
         } else {
-          throw new Error("Error");
+          throw new Error();
         }
-      } catch (error) {
-        console.error("Error:", error);
-        alert("Hubo un problema / There was a problem.");
+      } catch {
+        openModal(
+          "Hubo un detalle",
+          "No pudimos enviar tu información. Por favor, intenta de nuevo más tarde.",
+          true,
+        );
       } finally {
         submitBtn.disabled = false;
-        submitBtn.innerText = originalBtnText;
-        submitBtn.classList.remove("opacity-70", "cursor-not-allowed");
+        submitBtn.innerHTML = originalContent;
       }
     });
   }

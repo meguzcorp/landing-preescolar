@@ -1,0 +1,104 @@
+---
+// src/components/ModalResponse.astro
+---
+
+<div
+  id="modal-response"
+  class="fixed inset-0 bg-black/60 z-[100] flex items-center justify-center hidden opacity-0 transition-opacity duration-300 backdrop-blur-sm"
+>
+  <div
+    class="bg-white p-8 rounded-3xl shadow-2xl w-[90%] max-w-md transform scale-95 transition-transform duration-300 relative border-t-8"
+    id="modal-content"
+  >
+    <button
+      id="close-modal"
+      class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-6 w-6"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M6 18L18 6M6 6l12 12"></path>
+      </svg>
+    </button>
+
+    <div class="flex justify-center mb-6" id="modal-icon-container">
+      <svg
+        id="icon-success"
+        class="h-16 w-16 text-green-500 hidden"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="1.5"
+          d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+      </svg>
+      <svg
+        id="icon-error"
+        class="h-16 w-16 text-red-500 hidden"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="1.5"
+          d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+        ></path>
+      </svg>
+    </div>
+
+    <h3
+      class="text-2xl font-bold text-center text-[#0a1744] mb-3"
+      id="modal-title"
+    >
+    </h3>
+    <p class="text-center text-gray-600 mb-8" id="modal-text"></p>
+
+    <div class="flex justify-center">
+      <button
+        id="btn-modal-close"
+        class="bg-[#B61350] text-white px-8 py-3 rounded-full font-semibold hover:bg-[#8e0e3e] transition-colors w-full shadow-md"
+      >
+        Entendido
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Lógica para cerrar el modal
+  const modal = document.getElementById("modal-response");
+  const closeBtn = document.getElementById("close-modal");
+  const actionBtn = document.getElementById("btn-modal-close");
+
+  function closeModal() {
+    if (!modal) return;
+    modal.classList.add("opacity-0");
+    modal.querySelector("#modal-content")?.classList.add("scale-95");
+    setTimeout(() => {
+      modal.classList.add("hidden");
+    }, 300); // Espera a la animación
+  }
+
+  closeBtn?.addEventListener("click", closeModal);
+  actionBtn?.addEventListener("click", closeModal);
+
+  // Cerrar al hacer clic fuera del contenido
+  modal?.addEventListener("click", (e) => {
+    if (e.target === modal) {
+      closeModal();
+    }
+  });
+</script>
